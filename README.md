@@ -1,4 +1,4 @@
-# Docker-MQTT-INFLUX-GRAFANA
+# Docker-MQTT-INFLUX-GRAFANA-ESP2866
 Smarthome system install in Mint Linux. IoT is a NodeMCU ESP2866 with BME280
 
 # Install and Goal
