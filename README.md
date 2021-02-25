@@ -46,8 +46,9 @@ I pick the second. So I created this readme to help with my experiences
 Many samples are outthere, also youtube videos. But when I followed them, I run always into the [***ISSUE***](#issue)
 
 ### usecases
-[Visualize MQTT Data with InfluxDB and Grafana](https://diyi0t.com/visualize-mqtt-data-with-influxdb-and-grafana/)
-[Send data from ESP8266 or ESP32 to Raspberry Pi via MQTT](https://diyi0t.com/microcontroller-to-raspberry-pi-wifi-mqtt-communication/)
+- [Visualize MQTT Data with InfluxDB and Grafana](https://diyi0t.com/visualize-mqtt-data-with-influxdb-and-grafana/)
+- [Send data from ESP8266 or ESP32 to Raspberry Pi via MQTT](https://diyi0t.com/microcontroller-to-raspberry-pi-wifi-mqtt-communication/)
+- [ESP32 MQTT – Publish BME280 Sensor Readings (Arduino IDE)](https://randomnerdtutorials.com/esp32-mqtt-publish-bme280-arduino/)
 
 ### used for testing mqtt from outside docker
 - MQTT.fx (on my MAC)
