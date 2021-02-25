@@ -116,7 +116,9 @@ sudo docker run --name mosquitto -p 1883:1883 --ip 192.168.1.87 -h mqtt.lmde.loc
 
 ### configuration
 Without auth. I think, when everything works fine, can be done.
+
 [mosquitto.conf](https://github.com/Hufnagels/Docker-MQTT-INFLUX-GRAFANA/blob/main/mosquitto.conf)
+
 
 ## influxdb
 ~~~
