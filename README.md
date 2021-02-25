@@ -48,6 +48,7 @@ Many samples are outthere, also youtube videos. But when I followed them, I run 
 ### usecases
 - [Visualize MQTT Data with InfluxDB and Grafana](https://diyi0t.com/visualize-mqtt-data-with-influxdb-and-grafana/)
 - [Send data from ESP8266 or ESP32 to Raspberry Pi via MQTT](https://diyi0t.com/microcontroller-to-raspberry-pi-wifi-mqtt-communication/)
+- [ESP8266 NodeMCU MQTT – Publish BME280 Sensor Readings (Arduino IDE)](https://randomnerdtutorials.com/esp8266-nodemcu-mqtt-publish-bme280-arduino/)
 - [ESP32 MQTT – Publish BME280 Sensor Readings (Arduino IDE)](https://randomnerdtutorials.com/esp32-mqtt-publish-bme280-arduino/)
 
 ### used for testing mqtt from outside docker
@@ -283,3 +284,8 @@ docker network inspect bridge | grep influxdb -A 5
 ~~~
 > Default login: admin/admin
 > [Grafana UI](http://localhost:3000) http://<your-ip>:3000
+
+Sample Grafana query
+~~~
+SELECT mean("Temperature") FROM "one_week"."mqtt_consumer" WHERE ("topic" = 'ESP2866/BME280') AND $timeFilter GROUP BY time(10s) fill(none)
+~~~
