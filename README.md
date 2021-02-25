@@ -1,5 +1,6 @@
 # Docker-MQTT-INFLUX-GRAFANA-ESP2866
-Smarthome system install in Mint Linux. IoT is a NodeMCU ESP2866 with BME280
+Smarthome system install in Mint Linux. IoT is a NodeMCU ESP2866 with BME280.
+The install on Raspberry Pi is the same, because raspi is debian based and the used containers is avaiable on that platform too.
 
 # Install and Goal
 Docker, Portainer, Mosquitto, InfluxDB, Telegraf, Grafana, HomeAssistant
