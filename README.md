@@ -116,21 +116,7 @@ sudo docker run --name mosquitto -p 1883:1883 --ip 192.168.1.87 -h mqtt.lmde.loc
 
 ### configuration
 Without auth. I think, when everything works fine, can be done.
-  ~~~
-  # Default listener
-  # =================================================================
-  listener 1883
-  max_connections -1
-
-  # Persistence
-  # =================================================================
-  persistence true
-  persistence_location /var/lib/mosquitto/
-
-  # Security
-  # =================================================================
-  allow_anonymous true
-  ~~~
+[mosquitto.conf](https://github.com/Hufnagels/Docker-MQTT-INFLUX-GRAFANA/blob/main/mosquitto.conf)
 
 ## influxdb
 ~~~
@@ -166,12 +152,7 @@ Enable auth
 sudo nano /etc/influxdb/influxdb.conf
 ~~~
 ### configuration
-  ~~~
-  [http]
-    enabled = true
-    bind-address = ":8086"
-    auth-enabled = true
-  ~~~
+[influxdb.conf](https://github.com/Hufnagels/Docker-MQTT-INFLUX-GRAFANA/blob/main/influxdb.conf)
 ~~~
 cat /etc/passwd | grep influxdb
 ~~~
@@ -206,7 +187,7 @@ Git HEAD:⋄	mega-20210114_cdc8a1a
 ~~~
 Example on [Github Telegraf JSON definition ](https://github.com/influxdata/telegraf/tree/master/plugins/parsers/json)
 
-***telegraf.conf***
+***JSON Example***
 ~~~
 [[inputs.file]]
   files = ["example"]
@@ -265,21 +246,7 @@ This need to translated to:
 my_json,Room=Livingroom Temperature=5,Humidity=6,Pressure= 1010
 
 ### configuration
-
-  ~~~
-  ## HTTP Basic Auth
-  username = "telegraf"
-  password = "telegraf"
-  [[inputs.mqtt_consumer]]
-  	servers = ["tcp://192.168.1.87:1883"]
-
-    topics = [
-       "ESP2866/status",
-       "ESP2866/BME280"
-    ]
-    data_format = "json"
-    json_string_fields = ["Room"]
-~~~
+[telegraf.conf](https://github.com/Hufnagels/Docker-MQTT-INFLUX-GRAFANA/blob/main/telegraf.conf)
 
 ~~~
 sudo docker container ls | grep influxdb
