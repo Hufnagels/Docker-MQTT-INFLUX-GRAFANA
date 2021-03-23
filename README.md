@@ -139,7 +139,7 @@ sudo touch influxdb-init.iql
 The influxdb-init.iql something like that
 ~~~
 CREATE DATABASE weather;
-CREATE RETENTION POLICY one_week ON weather DURATION 168h REPLICATION 1 DEFAULT;
+CREATE RETENTION POLICY one_week ON sensors DURATION 168h REPLICATION 1 DEFAULT;
 ~~~
 then (don't forget `INFLUXDB_ADMIN_USER` to change)
 ~~~
