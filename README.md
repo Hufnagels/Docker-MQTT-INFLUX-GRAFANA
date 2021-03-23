@@ -33,7 +33,7 @@ This issue can be solved in two ways:
 - install mqtt outside docker as a local process
 - or ***solve the problem***
 
-I pick the second. So I created this readme to help with my experiences
+I picked the second. So I created this readme to help with my experiences
 > Note: My local IP used in every situation is `192.168.1.87`
 
 > Note: I used User/password combo in every case (telegraf, mqtt, influxDB admin) `telegraf/telegraf` for simplicity
@@ -42,6 +42,7 @@ I pick the second. So I created this readme to help with my experiences
 
 ### Used sources:
 [How To Install InfluxDB Telegraf and Grafana on Docker](https://devconnected.com/how-to-install-influxdb-telegraf-and-grafana-on-docker/#Creatingupdating_the_InfluxDB_meta_database)
+
 [Github Telegraf JSON definition](https://github.com/influxdata/telegraf/tree/master/plugins/parsers/json)
 Many samples are outthere, also youtube videos. But when I followed them, I run always into the [***ISSUE***](#issue)
 
