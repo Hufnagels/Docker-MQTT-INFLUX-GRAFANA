@@ -6,12 +6,22 @@ The install on Raspberry Pi is the same, because raspi is debian based and the u
 Docker, Portainer, Mosquitto, InfluxDB, Telegraf, Grafana, HomeAssistant
 System is Linux Mint Debian Edition
 > Note: HomeAssistant is very simple, so i don't wrote it down
-
 > Note: Linux Mint Debian Edition is running on my MAC separatly
+
+## UPDATE 25.03.2021
+I decide to try a more convient way to set up the SMARTHOME system on my Mac with Docker-Desktop & docker-compose.
+So I added the [docker-compose.yaml](https://github.com/Hufnagels/Docker-MQTT-INFLUX-GRAFANA/blob/main/docker-compose.yaml) file. In this config with Docker Desktop app u don't need the first service (portainer), so u can remove it.
+### TODO
+Create the right config for influx base DB (smarthome in my case) and adding user and admin with necessary privilegs.
 
 ## GOAL
 In the home network every IoT device (NodeMCU esp2866 with Esp easy firmware for testing) should be able to connect to MQTT broker.
 In my tries I run every time into same **issue**: mosquitto is unreachable from outside, reachable only for localhost/inside docker. It means, from lan is unreachable.
+
+## INSTALL
+
+After installing docker engine starting with adding images.
+
 #### ISSUE
 ***Running this command:***
 ~~~
