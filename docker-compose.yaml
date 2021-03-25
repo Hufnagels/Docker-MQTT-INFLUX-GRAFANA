@@ -20,7 +20,7 @@ services:
       - nodered-storage:/var/lib/nodered
 
   influxdb:
-    image: influxdb:latest
+    image: influxdb:1.8
     container_name: influxdb
     restart: always
     ports:
