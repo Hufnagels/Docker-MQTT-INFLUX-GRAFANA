@@ -1,4 +1,4 @@
-# Docker-MQTT-INFLUX-GRAFANA-ESP2866
+# Docker MQTT INFLUX GRAFANA ESP2866
 Smarthome system install in Mint Linux. IoT is a NodeMCU ESP2866 with BME280.
 The install on Raspberry Pi is the same, because raspi is debian based and the used containers is avaiable on that platform too.
 
@@ -8,7 +8,7 @@ System is Linux Mint Debian Edition
 > Note: HomeAssistant is very simple, so i don't wrote it down
 > Note: Linux Mint Debian Edition is running on my MAC separatly
 
-## UPDATE 25.03.2021
+## UPDATE 25.03.2021 - Docker-compose.yaml
 I decide to try a more convient way to set up the SMARTHOME system on my Mac with Docker-Desktop & docker-compose.
 So I added the [docker-compose.yaml](https://github.com/Hufnagels/Docker-MQTT-INFLUX-GRAFANA/blob/main/docker-compose.yaml) file. In this config with Docker Desktop app u don't need the first service (portainer), so u can remove it.
 Another change is downgrade of influx from latest to 1.8
