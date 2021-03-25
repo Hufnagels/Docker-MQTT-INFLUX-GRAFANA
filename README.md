@@ -11,6 +11,9 @@ System is Linux Mint Debian Edition
 ## UPDATE 25.03.2021
 I decide to try a more convient way to set up the SMARTHOME system on my Mac with Docker-Desktop & docker-compose.
 So I added the [docker-compose.yaml](https://github.com/Hufnagels/Docker-MQTT-INFLUX-GRAFANA/blob/main/docker-compose.yaml) file. In this config with Docker Desktop app u don't need the first service (portainer), so u can remove it.
+Another change is downgrade of influx from latest to 1.8
+In Grafana on the DB connect panel connection works only with the host computer IP (in my case --> need to check why localhost not working)
+
 ### TODO
 Create the right config for influx base DB (smarthome in my case) and adding user and admin with necessary privilegs.
 
