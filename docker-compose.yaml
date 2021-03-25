@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    ports:
+      - "9000:9000"
+      - "8000:8000"
+    volumes:
+      - portainer-storage:/var/lib/portainer
+
+  node-red:
+    image: nodered/node-red
+    container_name: mynodered
+    restart: always
+    ports:
+      - "1880:1880"
+    volumes:
+      - nodered-storage:/var/lib/nodered
+
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    restart: always
+    ports:
+      - "8083:8083"
+      - "8086:8086"
+      - "8090:8090"
+    environment:
+      - INFLUXDB_DB=smarthome
+      - INFLUXDB_USER=telegraf
+      - INFLUXDB_USER_PASSWORD=telegraf
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=Mancika
+    volumes:
+      - influxdb-storage:/var/lib/influxdb
+      - ./influx-init.iql:/docker-entrypoint-initdb.d/
+
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf
+    restart: always
+    links:
+      - influxdb
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf
+    depends_on: [influxdb]
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    links:
+      - influxdb
+    depends_on:
+      - influxdb
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+  mosquitto:
+      image: eclipse-mosquitto
+      hostname: mosquitto
+      container_name: mosquitto
+      restart: always
+      ports:
+        - "1883:1883"
+        - "9001:9001"
+      volumes:
+        - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+volumes:
+  influxdb-storage: {}
+  grafana-storage: {}
+  portainer-storage: {}
+  nodered-storage: {}
