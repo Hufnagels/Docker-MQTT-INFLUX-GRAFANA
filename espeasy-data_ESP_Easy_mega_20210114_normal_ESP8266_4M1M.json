@@ -1,0 +1,117 @@
+﻿{
+  "System": {
+    "Build": 20111,
+    "Git Build": "",
+    "System Libraries": "ESP82xx Core 2843a5ac, NONOS SDK 2.2.2-dev(38a443e), LWIP: 2.1.2 PUYA support",
+    "Plugin Count": 47,
+    "Plugin Description": "[Normal]",
+    "Local Time": "2021-03-26 18:03:30",
+    "Unit Number": 0,
+    "Unit Name": "ESP2866",
+    "Uptime": 149,
+    "Last Boot Cause": "Manual reboot",
+    "Reset Reason": "Software Watchdog",
+    "Load": 18.31,
+    "Load LC": 3906,
+    "CPU Eco Mode": "false",
+    "Heap Max Free Block": 9592,
+    "Heap Fragmentation": 29,
+    "Free RAM": 13760
+  },
+  "WiFi": {
+    "Hostname": "ESP2866",
+    "IP Config": "DHCP",
+    "IP Address": "192.168.1.79",
+    "IP Subnet": "255.255.255.0",
+    "Gateway": "192.168.1.1",
+    "STA MAC": "3C:61:05:D0:97:88",
+    "DNS 1": "192.168.1.1",
+    "DNS 2": "(IP unset)",
+    "SSID": "Telekom-YkuusL",
+    "BSSID": "5C:B1:3E:A6:4C:E0",
+    "Channel": 11,
+    "Connected msec": 8956000,
+    "Last Disconnect Reason": 1,
+    "Last Disconnect Reason str": "(1) Unspecified",
+    "Number Reconnects": 0,
+    "Force WiFi B/G": "false",
+    "Restart WiFi Lost Conn": "true",
+    "Force WiFi No Sleep": "false",
+    "Periodical send Gratuitous ARP": "false",
+    "Connection Failure Threshold": 0,
+    "RSSI": -60
+  },
+  "Sensors": [
+    {
+      "TaskValues": [
+        {
+          "ValueNumber": 1,
+          "Name": "Temperature",
+          "NrDecimals": 2,
+          "Value": 22.99
+        },
+        {
+          "ValueNumber": 2,
+          "Name": "Humidity",
+          "NrDecimals": 2,
+          "Value": 35.91
+        },
+        {
+          "ValueNumber": 3,
+          "Name": "Pressure",
+          "NrDecimals": 2,
+          "Value": 1008.64
+        }
+      ],
+      "DataAcquisition": [
+        {
+          "Controller": 1,
+          "IDX": 0,
+          "Enabled": "true"
+        },
+        {
+          "Controller": 2,
+          "IDX": 0,
+          "Enabled": "false"
+        },
+        {
+          "Controller": 3,
+          "IDX": 0,
+          "Enabled": "false"
+        }
+      ],
+      "TaskInterval": 600,
+      "Type": "Environment - BMx280",
+      "TaskName": "BME280",
+      "TaskDeviceNumber": 28,
+      "TaskEnabled": "true",
+      "TaskNumber": 1
+    },
+    {
+      "DataAcquisition": [
+        {
+          "Controller": 1,
+          "IDX": 0,
+          "Enabled": "false"
+        },
+        {
+          "Controller": 2,
+          "IDX": 0,
+          "Enabled": "false"
+        },
+        {
+          "Controller": 3,
+          "IDX": 0,
+          "Enabled": "false"
+        }
+      ],
+      "TaskInterval": 10,
+      "Type": "Display - OLED SSD1306/SH1106 Framed",
+      "TaskName": "OLEDalt",
+      "TaskDeviceNumber": 36,
+      "TaskEnabled": "true",
+      "TaskNumber": 3
+    }
+  ],
+  "TTL": 60000
+}
