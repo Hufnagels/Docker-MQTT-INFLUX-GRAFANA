@@ -1,0 +1,2 @@
+FROM .
+COPY influxdb-init.iql  /docker-entrypoint-initdb.d/
