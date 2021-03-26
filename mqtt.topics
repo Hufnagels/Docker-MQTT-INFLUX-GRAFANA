@@ -1,4 +1,7 @@
 ESP2866/BME280
+ESP2866/BME280/Humidity
+ESP2866/BME280/Pressure
+ESP2866/BME280/Temperature
 ESP2866/Livingroom/BME280/Humidity
 ESP2866/Livingroom/BME280/Pressure
 ESP2866/Livingroom/BME280/Temperature
