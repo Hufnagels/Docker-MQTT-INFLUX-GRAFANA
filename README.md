@@ -9,8 +9,7 @@ So I added the [docker-compose.yaml](https://github.com/Hufnagels/Docker-MQTT-IN
 Another change is downgrade of influx from latest to 1.8
 In Grafana on the DB connect panel connection works only with the host computer IP (in my case --> need to check why localhost not working)
 
-- [Docker MQTT INFLUX GRAFANA ESP2866](#docker-mqtt-influx-grafana-esp2866)
-  * [UPDATE 25.03.2021 - Docker-compose.yaml](#update-25032021---docker-composeyaml)
+##### Table of Contents
 - [Install and Goal](#install-and-goal)
   * [TODO](#todo)
   * [GOAL](#goal)
