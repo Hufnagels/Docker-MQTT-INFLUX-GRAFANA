@@ -9,6 +9,29 @@ So I added the [docker-compose.yaml](https://github.com/Hufnagels/Docker-MQTT-IN
 Another change is downgrade of influx from latest to 1.8
 In Grafana on the DB connect panel connection works only with the host computer IP (in my case --> need to check why localhost not working)
 
+##### Table of Contents
+- [Install and Goal](#install-and-goal)
+  * [TODO](#todo)
+  * [GOAL](#goal)
+  * [INSTALL](#install)
+      - [ISSUE](#issue)
+    + [Used sources:](#used-sources-)
+    + [usecases](#usecases)
+    + [used for testing mqtt from outside docker](#used-for-testing-mqtt-from-outside-docker)
+    + [Advice](#advice)
+  * [Docker](#docker)
+  * [Portainer](#portainer)
+  * [node red](#node-red)
+  * [mosquitto](#mosquitto)
+    + [configuration](#configuration)
+  * [influxdb](#influxdb)
+    + [configuration](#configuration-1)
+  * [telegraf](#telegraf)
+    + [ESP2866 - BME280 sensor + Rules to send data to mqtt](#esp2866---bme280-sensor---rules-to-send-data-to-mqtt)
+    + [configuration](#configuration-2)
+  * [grafana](#grafana)
+
+
 # Install and Goal
 Docker, Portainer, Mosquitto, InfluxDB, Telegraf, Grafana, HomeAssistant
 System is Linux Mint Debian Edition
