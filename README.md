@@ -1,6 +1,7 @@
 # Docker MQTT INFLUX GRAFANA ESP2866
 Smarthome system install in Mint Linux. IoT is a NodeMCU ESP2866 with BME280.
 The install on Raspberry Pi is the same, because raspi is debian based and the used containers is avaiable on that platform too.
+I used [ESP EASY Mega firmware](ESPEasyMega/espeasy-data_ESP_Easy_mega_20210114_normal_ESP8266_4M1M.json) on NodeMCU 
 
 # Install and Goal
 Docker, Portainer, Mosquitto, InfluxDB, Telegraf, Grafana, HomeAssistant
