@@ -1,5 +1,9 @@
 # ESP EASY Mega firmware on NodeMCU
-[Config parameters](espeasy-data_ESP_Easy_mega_20210114_normal_ESP8266_4M1M.json), include firmware params 
+[Config parameters](espeasy-data_ESP_Easy_mega_20210114_normal_ESP8266_4M1M.json), include firmware params
+
+## Update 28.03.2021
+Not working yet. ESP MEGA firmware --> [rules tab](espeasy.rules) --> can't configure json output yet.
+
 ## Example
 
 Config:
