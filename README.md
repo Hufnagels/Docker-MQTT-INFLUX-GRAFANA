@@ -1,12 +1,13 @@
 # Docker MQTT INFLUX GRAFANA ESP2866
 Smarthome system install in Mint Linux. IoT is a NodeMCU ESP2866 with BME280.
 The install on Raspberry Pi is the same, because raspi is debian based and the used containers is avaiable on that platform too.
-I used [ESP EASY Mega firmware](ESPEasyMega/espeasy-data_ESP_Easy_mega_20210114_normal_ESP8266_4M1M.json) on NodeMCU 
+I used [ESP EASY Mega firmware](ESPEasyMega/espeasy-data_ESP_Easy_mega_20210114_normal_ESP8266_4M1M.json) on NodeMCU installed with [NodeMCU-PyFlasher-4.0](https://github.com/marcelstoer/nodemcu-pyflasher)
 
 ## UPDATE 25.03.2021 - Docker-compose.yaml
 I decide to try a more convient way to set up the SMARTHOME system on my Mac with Docker-Desktop & docker-compose.
 So I added the [docker-compose.yaml](https://github.com/Hufnagels/Docker-MQTT-INFLUX-GRAFANA/blob/main/docker-compose.yaml) file. In this config with Docker Desktop app u don't need the first service (portainer), so u can remove it.
-Another change is downgrade of influx from latest to 1.8
+Another change is downgrade of influx from latest to 1.8. 
+
 In Grafana on the DB connect panel connection works only with the host computer IP (in my case --> need to check why localhost not working)
 
 ##### Table of Contents
