@@ -2,6 +2,7 @@
 Smarthome system install in Mint Linux. IoT is a NodeMCU ESP2866 with BME280.
 The install on Raspberry Pi is the same, because raspi is debian based and the used containers is avaiable on that platform too.
 I used [ESP EASY Mega firmware](https://github.com/letscontrolit/ESPEasy/tree/mega-20210114) on NodeMCU installed with [NodeMCU-PyFlasher-4.0](https://github.com/marcelstoer/nodemcu-pyflasher)
+
 Firmwaredata can be seen in [ESPEasyMega/espeasy-data_ESP_Easy_mega_20210114_normal_ESP8266_4M1M.json](ESPEasyMega/espeasy-data_ESP_Easy_mega_20210114_normal_ESP8266_4M1M.json)
 
 ## UPDATE 25.03.2021 - Docker-compose.yaml
