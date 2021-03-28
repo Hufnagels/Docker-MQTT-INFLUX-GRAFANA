@@ -6,10 +6,20 @@ endon
 
 On Rules#Timer=1 do
 //JSON data for node-red processing
-  Publish %sysname%/BME280, '{"Sysname":"%sysname%","Taskname":"BME280","Uptime":"%uptime%","Temperature":[BME280#Temperature], "Humidity":[BME280#Humidity], "Pressure":[BME280#Pressure],"Room":"Livingroom"}'
-  Publish %sysname%/Livingroom/BME280/Temperature, {"Temperature":[BME280#Temperature]}
-  Publish %sysname%/Livingroom/BME280/Humidity, {"Humidity":[BME280#Humidity]}
-  Publish %sysname%/Livingroom/BME280/Pressure, {"Pressure":[BME280#Pressure]}
+Publish %sysname%/BME280, '{
+    "Sysname":"%sysname%",
+    "Taskname":"BME280",
+    "temperature": [BME280#Temperature],
+    "humidity": [BME280#Humidity],
+    "pressure": [BME280#Pressure],
+    "Room": "Livingroom",
+    "location": "hu-budapest",
+    "name": "esp2866"
+}'
+  //Publish %sysname%/BME280, '{"Sysname":"%sysname%","Taskname":"BME280","Uptime":"%uptime%","Temperature":[BME280#Temperature], "Humidity":[BME280#Humidity], "Pressure":[BME280#Pressure],"Room":"Livingroom"}'
+  //Publish %sysname%/Livingroom/BME280/Temperature, {"Temperature":[BME280#Temperature]}
+  //Publish %sysname%/Livingroom/BME280/Humidity, {"Humidity":[BME280#Humidity]}
+  //Publish %sysname%/Livingroom/BME280/Pressure, {"Pressure":[BME280#Pressure]}
 // direct data to InfluxDB
   Publish %sysname%/Livingroom/BME280/Temperature, 'wether3,location=budapest temperature=[BME280#Temperature]'
   Publish %sysname%/Livingroom/BME280/Humidity, 'wether3,location=budapest humidity=[BME280#Humidity]'
