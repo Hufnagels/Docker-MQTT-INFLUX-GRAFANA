@@ -11,6 +11,7 @@ services:
       - "9001:9001"
     volumes:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+#      - mosquitto_volume:/mosquitto/data
 
   node-red:
     image: nodered/node-red
@@ -19,8 +20,8 @@ services:
     ports:
       - "1880:1880"
     volumes:
-      - /Volumes/nvme_osx/nodered_user_data:/data
-      - mynodered_volume:/var/lib/influxdb
+      - /Volumes/nvme_osx/docker_volumes/nodered_user_data:/data
+#      - mynodered_volume:/var/lib/nodered
 
   influxdb:
     image: influxdb:1.8
@@ -37,7 +38,7 @@ services:
       - INFLUXDB_ADMIN_USER=admin
       - INFLUXDB_ADMIN_PASSWORD=Mancika
     volumes:
-      - influxdb-storage:/var/lib/influxdb
+      - /Volumes/nvme_osx/docker_volumes/influxdb_user_data:/var/lib/influxdb
       - ./influx-init.iql:/docker-entrypoint-initdb.d/
 
   telegraf:
@@ -48,6 +49,7 @@ services:
       - influxdb
     volumes:
       - ./telegraf.conf:/etc/telegraf/telegraf.conf
+#      - telegraf_volume:/home
     depends_on: [influxdb]
 
   grafana:
@@ -61,9 +63,11 @@ services:
     depends_on:
       - influxdb
     volumes:
-      - grafana-storage:/var/lib/grafana
+      - /Volumes/nvme_osx/docker_volumes/grafana_user_data:/var/lib/grafana
 
-volumes:
-  influxdb-storage: {}
-  grafana-storage: {}
-  mynodered_volume: {}
+#volumes:
+  #influxdb_volume: {}
+  #grafana_volume: {}
+  #mynodered_volume: {}
+  #mosquitto_volume: {}
+  #telegraf_volume: {}
