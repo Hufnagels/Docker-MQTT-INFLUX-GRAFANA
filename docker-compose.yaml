@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.7'
 
 services:
   mosquitto:
@@ -19,7 +19,8 @@ services:
     ports:
       - "1880:1880"
     volumes:
-      - nodered-storage:/var/lib/nodered
+      - /Volumes/nvme_osx/nodered_user_data:/data
+      - mynodered_volume:/var/lib/influxdb
 
   influxdb:
     image: influxdb:1.8
@@ -65,4 +66,4 @@ services:
 volumes:
   influxdb-storage: {}
   grafana-storage: {}
-  nodered-storage: {}
+  mynodered_volume: {}
