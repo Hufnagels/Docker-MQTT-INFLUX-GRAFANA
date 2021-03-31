@@ -1,4 +1,7 @@
+On System#Boot do    //When the ESP boots, do
+  timerSet,1,10      //Set Timer 1 for the next event in 10 seconds
 endon
+
 
 on MQTT#Connected do
   Publish %sysname%/status, '{"Status": "MQTT connected", "IP", %ip%}'
