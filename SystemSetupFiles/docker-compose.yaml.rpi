@@ -1,0 +1,152 @@
+version: '3.3'
+
+#Description: >
+#  Basic system setup for storing and visualizing sensors data via MQTT
+#  ESP8266+sensors (Temp, Humidity, Pressure)
+#  Each containers data are stored in: /Volumes/nvme_osx/docker_volumes/[containername]_user_data
+#  TODO: connect Bosch 4300W Boiler with ESP
+
+#Comment: >
+#  Used: Node-red, VSCode server, AppDaemon, MariaDB
+#  Not used: Deconz
+
+services:
+
+  #portainer
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    ports:
+      - "9000:9000"
+      - "8000:8000"
+    volumes:
+      - /media/www/docker_volumes/portainer_user_data:/var/lib/portainer
+
+  #MQTT Broker Mosquitto
+  mosquitto:
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    container_name: mosquitto
+    restart: always
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+#      - mosquitto_volume:/mosquitto/data
+  
+  #NODE-RED
+  node-red:
+    image: nodered/node-red
+    container_name: mynodered
+    restart: always
+    ports:
+      - "1880:1880"
+    volumes:
+      - /media/www/docker_volumes/mynodered_user_data:/data
+#      - mynodered_volume:/var/lib/nodered
+  
+  #InfluxDB store sensors data
+  influxdb:
+    image: influxdb:1.8
+    container_name: influxdb
+    restart: always
+    ports:
+      - "8083:8083"
+      - "8086:8086"
+      - "8090:8090"
+    environment:
+      - INFLUXDB_DB=smarthome
+      - INFLUXDB_USER=telegraf
+      - INFLUXDB_USER_PASSWORD=telegraf
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=Mancika
+    volumes:
+      - /media/www/docker_volumes/influxdb_user_data:/var/lib/influxdb
+      - ./influx-init.iql:/docker-entrypoint-initdb.d/
+  
+  #Telegraf gather sensors data via MQTT to send to InfluxDB
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf
+    restart: always
+    links:
+      - influxdb
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf
+#      - telegraf_volume:/home
+    depends_on: [influxdb]
+
+  #Visualize sensors Influx data
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    links:
+      - influxdb
+    depends_on:
+      - influxdb
+    volumes:
+      - /media/www/docker_volumes/grafana_user_data:/var/lib/grafana
+
+  #HOMASSISTANT SECTION
+  # HomeAssistant
+  homeassistant:
+    container_name: homeassistant
+    image: homeassistant/raspberrypi3-homeassistant:latest
+    #image: homeassistant/armv7-hassio-supervisor
+    volumes:
+      # Local path where your home assistant config will be stored
+      - /media/www/docker_volumes/homeassistant_user_data:/config
+      #- /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    #network_mode: host
+    environment:
+      # This is the required way to set a timezone on macOS and differs from the Linux compose file
+      - TZ=Europe/Budapest
+    ports:
+      - "8123:8123"
+    depends_on:
+      # MariaDB is optional (only if you would like to use a different database for HA).
+      - mariadb
+      # Deconz is optional (only if you use the deconz Zigbee hub).
+      #- deconz
+    #user: "${LOCAL_USER}:${LOCAL_USER}"
+
+  # MariaDb
+  mariadb:
+    image: jsurf/rpi-mariadb
+    container_name: mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: ha_db
+      MYSQL_USER: homeassistant
+      MYSQL_PASSWORD: "${HA_MYSQL_PASSWORD}"
+    user: "${LOCAL_USER}:${LOCAL_USER}"
+    volumes:
+      # Local path where the database will be stored.
+      - /media/www/docker_volumes/mariadb_user_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  # AppDaemon
+  appdaemon:
+    container_name: appdaemon
+    restart: unless-stopped
+    image: acockburn/appdaemon:4.0.8
+    environment:
+      HA_URL: "http://${SERVER_IP}:8123"
+      TOKEN: "${HA_APPDAEMON_KEY}"
+      DASH_URL: "http://${SERVER_IP}:5050"
+    ports:
+      - "5050:5050"
+    volumes:
+      # Set which local directory will contain all your app daemon configuration
+      - /media/www/docker_volumes/appdaemon:/conf
+    depends_on:
+      - homeassistant
+    user: "${LOCAL_USER}:${LOCAL_USER}"
+
