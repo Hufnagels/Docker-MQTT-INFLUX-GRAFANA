@@ -22,7 +22,7 @@ services:
       - "1883:1883"
       - "9001:9001"
     volumes:
-      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
 #      - mosquitto_volume:/mosquitto/data
 
   #NODE-RED
@@ -53,7 +53,7 @@ services:
       - INFLUXDB_ADMIN_PASSWORD=Mancika
     volumes:
       - /Volumes/nvme_osx/docker_volumes/influxdb_user_data:/var/lib/influxdb
-      - ./influx-init.iql:/docker-entrypoint-initdb.d/
+      - ./config/influx-init.iql:/docker-entrypoint-initdb.d/
 
   #Telegraf gather sensors data via MQTT to send to InfluxDB
   telegraf:
@@ -63,7 +63,7 @@ services:
     links:
       - influxdb
     volumes:
-      - ./telegraf.conf:/etc/telegraf/telegraf.conf
+      - ./config/telegraf.conf:/etc/telegraf/telegraf.conf
 #      - telegraf_volume:/home
     depends_on: [influxdb]
 

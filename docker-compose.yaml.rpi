@@ -11,30 +11,33 @@ version: '3.3'
 #  Not used: Deconz
 
 services:
-
+  
   #portainer
-  portainer:
-    image: portainer/portainer-ce
-    container_name: portainer
-    ports:
-      - "9000:9000"
-      - "8000:8000"
-    volumes:
-      - /media/www/docker_volumes/portainer_user_data:/var/lib/portainer
-
+#  portainer:
+#    image: portainer/portainer-ce
+#    container_name: portainer
+#    ports:
+#      - "9000:9000"
+#      - "8000:8000"
+#    volumes:
+#      - /media/www/docker_volumes/portainer_user_data:/var/lib/portainer
+  
   #MQTT Broker Mosquitto
   mosquitto:
     image: eclipse-mosquitto
     hostname: mosquitto
     container_name: mosquitto
     restart: always
+    #environment:
+    #  - MOSQUITTO_USERNAME=${MOSQUITTO_USERNAME}
+    #  - MOSQUITTO_PASSWORD=${MOSQUITTO_PASSWORD}
     ports:
       - "1883:1883"
       - "9001:9001"
     volumes:
-      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
 #      - mosquitto_volume:/mosquitto/data
-  
+
   #NODE-RED
   node-red:
     image: nodered/node-red
@@ -45,7 +48,7 @@ services:
     volumes:
       - /media/www/docker_volumes/mynodered_user_data:/data
 #      - mynodered_volume:/var/lib/nodered
-  
+
   #InfluxDB store sensors data
   influxdb:
     image: influxdb:1.8
@@ -64,7 +67,7 @@ services:
     volumes:
       - /media/www/docker_volumes/influxdb_user_data:/var/lib/influxdb
       - ./influx-init.iql:/docker-entrypoint-initdb.d/
-  
+
   #Telegraf gather sensors data via MQTT to send to InfluxDB
   telegraf:
     image: telegraf:latest
@@ -92,11 +95,31 @@ services:
       - /media/www/docker_volumes/grafana_user_data:/var/lib/grafana
 
   #HOMASSISTANT SECTION
+
+  #homeassistant:
+  #  container_name: homeassistant
+  #  image: homeassistant/homeassistant:latest
+  #  network_mode: "host"
+  #  ports:
+  #    - "8123:8123"
+  #  volumes:
+  #    - /Volumes/nvme_osx/docker_volumes/homeassistant_user_data:/config
+  #    #- /etc/localtime:/etc/localtime:ro
+  #    #- /etc/letsencrypt:/etc/letsencrypt:ro
+  #  devices:
+  #    - /dev/ttyACM0:/dev/ttyACM0:rwm
+  #  restart: always
+  #  healthcheck:
+  #    test: ["CMD", "curl", "-f", "http://127.0.0.1:8123"]
+  #    interval: 30s
+  #    timeout: 10s
+  #    retries: 6
+  
   # HomeAssistant
   homeassistant:
     container_name: homeassistant
-    image: homeassistant/raspberrypi3-homeassistant:latest
     #image: homeassistant/armv7-hassio-supervisor
+    image: homeassistant/raspberrypi3-homeassistant:latest
     volumes:
       # Local path where your home assistant config will be stored
       - /media/www/docker_volumes/homeassistant_user_data:/config
@@ -132,6 +155,28 @@ services:
     ports:
       - "3306:3306"
 
+  # Deconz
+  #deconz:
+  #  container_name: deconz
+  #  image: marthoc/deconz:latest
+  #  restart: unless-stopped
+  #  network_mode: host
+  #  environment:
+  #    # You can access Deconz at this port
+  #    DECONZ_WEB_PORT: 8080
+  #    DECONZ_WS_PORT: 8088
+  #    # Set VNC_MODE to 0 to disable it completely
+  #    DECONZ_VNC_MODE: 1
+  #    DECONZ_VNC_PORT: "${VNC_PORT}"
+  #    DECONZ_VNC_PASSWORD: "${VNC_PASSWORD}"
+  #  volumes:
+  #    #- /etc/localtime:/etc/localtime:ro
+  #    #- /etc/timezone:/etc/timezone:ro
+  #    # Replace <local path> with a path where all deconz config will be stored.
+  #    - /Volumes/nvme_osx/docker_volumes/deconz_user_data:/root/.local/share/dresden-elektronik/deCONZ
+  #  devices:
+  #    - "/dev/tty.URT0:/dev/tty.URT0"
+
   # AppDaemon
   appdaemon:
     container_name: appdaemon
@@ -150,3 +195,25 @@ services:
       - homeassistant
     user: "${LOCAL_USER}:${LOCAL_USER}"
 
+  # Visual Studio code
+#  vscode:
+#    container_name: vscode
+#    image: codercom/code-server:latest
+#    volumes:
+      # Set <project dir> to the directory you want to open in VS Code.
+#      - /media/www/docker_volumes/vscode/project:/home/coder/project
+      # <vs code config> should point to a local dir where vs code stores its data.
+#      - /media/www/docker_volumes/vscode/config:/home/coder/.local/share/code-server
+#    ports:
+#      - "8443:8443"
+#    command: code-server --auth password --port 8443 --disable-telemetry /home/coder/project
+#    environment:
+#      PASSWORD: "${VSCODE_PASSWORD}"
+#    restart: unless-stopped
+
+#volumes:
+  #influxdb_volume: {}
+  #grafana_volume: {}
+  #mynodered_volume: {}
+  #mosquitto_volume: {}
+  #telegraf_volume: {}
