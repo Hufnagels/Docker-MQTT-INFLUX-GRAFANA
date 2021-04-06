@@ -1,15 +1,23 @@
+#mosquitto_pub -h 192.168.1.68 -t "octopi/gpio/status/printer" -m "off"
+#mosquitto_pub -h 192.168.1.68 -t "octopi/gpio/status/psu" -m "off"
+
 import RPi.GPIO as GPIO
 import paho.mqtt.client as mqtt
 import json
 
 
 mqtt_broker = '192.168.1.68'
-mqtt_topic = "octopi/pins/status"
-PSUpin = 6
+mqtt_base_topic = "Octopi/gpio/"
+psu_topic = "psu"
+printer_topic = "printer"
+psuPin = 6
+printerPin = 12 
 
 def main():
     GPIO.setmode(GPIO.BCM) #set numbering scheme
-    GPIO.setup(PSUpin,GPIO.OUT)
+    GPIO.setup(psuPin,GPIO.OUT)
+    GPIO.setup(printerPin,GPIO.OUT)
+    GPIO.setwarnings(False)
     client = mqtt.Client()
     # Register connect callback
     client.on_connect = on_connect
@@ -19,21 +27,35 @@ def main():
         client.loop_forever()
         sleep(60)
     except KeyboardInterrupt:
-        GPIO.cleanup()
+        #GPIO.cleanup()
+        #client.unsubscribe(mqtt_topic)
+        client.unsubscribe(mqtt_base_topic+psu_topic)
+        client.unsubscribe(mqtt_base_topic+printer_topic)
+        
 
 def on_connect(client, userdata, flags, rc):
     print("Connection returned result: "+str(rc))
-    client.subscribe(mqtt_topic)
+    client.subscribe(mqtt_base_topic+psu_topic)
+    client.subscribe(mqtt_base_topic+printer_topic)
 
 def on_message(client, userdata, message):
-    print("Received message: " + str(message.payload.decode('utf-8')) + " on topic "+ message.topic + " with QoS " + str(messa$
+    print("Received message: " + str(message.payload.decode('utf-8')) + " on topic "+ message.topic + " with QoS " + str(message.qos))
     print(str(message.payload.decode('utf-8')))
+    state = 0
     if (str(message.payload.decode('utf-8')) == "off"):
-        GPIO.output(PSUpin, 1)
+        state = 0
     elif (str(message.payload.decode('utf-8')) == "on"):
-        GPIO.output(PSUpin, 0)
+        state = 1
     else:
         print("nincs jo adat (on/off)")
+        return
+    print("state",state)
+    if (message.topic == mqtt_base_topic+psu_topic):
+        GPIO.output(psuPin, state)
+    elif (message.topic == mqtt_base_topic+printer_topic):
+        GPIO.output(printerPin, state)
+    else:
+        print("Nincs topic")
 
 def set_gpio_status(pin, status):
     # Output GPIOs state

@@ -4,7 +4,7 @@ cd /Users/pisti/Library/Mobile\ Documents/com~apple~CloudDocs/Projects/smarthome
 
 if [ "$1" == "start" ]; 
 then 
-    docker-compose up -d --no-recreate
+    docker-compose up -d --no-recreate 
 elif [ "$1" == "stop" ];
 then 
     docker-compose down

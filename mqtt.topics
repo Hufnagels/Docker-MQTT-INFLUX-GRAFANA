@@ -1,8 +1,19 @@
+ESP2866/status/LWT
+
 ESP2866/BME280
 ESP2866/BME280/Humidity
 ESP2866/BME280/Pressure
 ESP2866/BME280/Temperature
-ESP2866/Livingroom/BME280/Humidity
-ESP2866/Livingroom/BME280/Pressure
-ESP2866/Livingroom/BME280/Temperature
-ESP2866/status/LWT
+#https://maker.ifttt.com/trigger/printer_event/with/key/g76cMC4NcQBikT4P_wMdJ
+
+#Main topics
+Livingroom/ESP2866/BME280/Humidity
+Livingroom/ESP2866/BME280/Pressure
+Livingroom/ESP2866/BME280/Temperature
+
+
+Octopi/gpio/printer
+Octopi/gpio/psu
+
+
+
