@@ -3,7 +3,7 @@ version: '3.7'
 #Description: >
 #  Basic system setup for storing and visualizing sensors data via MQTT
 #  ESP8266+sensors (Temp, Humidity, Pressure)
-#  Each containers data are stored in: /Volumes/nvme_osx/docker_volumes/[containername]_user_data
+#  Each containers data are stored in: ${VOLUMES_USER_DATA_BASE}[containername]_user_data
 #  TODO: connect Bosch 4300W Boiler with ESP
 
 #Comment: >
@@ -23,6 +23,7 @@ services:
       - "9001:9001"
     volumes:
       - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ${VOLUMES_USER_DATA_BASE}mosquitto_user_data:/mosquitto/data
 #      - mosquitto_volume:/mosquitto/data
 
   #NODE-RED
@@ -33,7 +34,7 @@ services:
     ports:
       - "1880:1880"
     volumes:
-      - /Volumes/nvme_osx/docker_volumes/mynodered_user_data:/data
+      - ${VOLUMES_USER_DATA_BASE}mynodered_user_data:/data
 #      - mynodered_volume:/var/lib/nodered
 
   #InfluxDB store sensors data
@@ -52,7 +53,7 @@ services:
       - INFLUXDB_ADMIN_USER="${INFLUXDB_ADMIN_USER}"
       - INFLUXDB_ADMIN_PASSWORD="${INFLUXDB_ADMIN_PASSWORD}"
     volumes:
-      - /Volumes/nvme_osx/docker_volumes/influxdb_user_data:/var/lib/influxdb
+      - ${VOLUMES_USER_DATA_BASE}influxdb_user_data:/var/lib/influxdb
       - ./config/influx-init.iql:/docker-entrypoint-initdb.d/
 
   #Telegraf gather sensors data via MQTT to send to InfluxDB
@@ -79,7 +80,7 @@ services:
     depends_on:
       - influxdb
     volumes:
-      - /Volumes/nvme_osx/docker_volumes/grafana_user_data:/var/lib/grafana
+      - ${VOLUMES_USER_DATA_BASE}grafana_user_data:/var/lib/grafana
 
   #HOMASSISTANT SECTION
 
@@ -90,7 +91,7 @@ services:
   #  ports:
   #    - "8123:8123"
   #  volumes:
-  #    - /Volumes/nvme_osx/docker_volumes/homeassistant_user_data:/config
+  #    - ${VOLUMES_USER_DATA_BASE}homeassistant_user_data:/config
   #    #- /etc/localtime:/etc/localtime:ro
   #    #- /etc/letsencrypt:/etc/letsencrypt:ro
   #  devices:
@@ -108,7 +109,7 @@ services:
     image: homeassistant/home-assistant
     volumes:
       # Local path where your home assistant config will be stored
-      - /Volumes/nvme_osx/docker_volumes/homeassistant_user_data:/config
+      - ${VOLUMES_USER_DATA_BASE}homeassistant_user_data:/config
       #- /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     #network_mode: host
@@ -137,7 +138,7 @@ services:
     user: "${LOCAL_USER}:${LOCAL_USER}"
     volumes:
       # Local path where the database will be stored.
-      - /Volumes/nvme_osx/docker_volumes/mariadb_user_data:/var/lib/mysql
+      - ${VOLUMES_USER_DATA_BASE}mariadb_user_data:/var/lib/mysql
     ports:
       - "3306:3306"
 
@@ -159,7 +160,7 @@ services:
   #    #- /etc/localtime:/etc/localtime:ro
   #    #- /etc/timezone:/etc/timezone:ro
   #    # Replace <local path> with a path where all deconz config will be stored.
-  #    - /Volumes/nvme_osx/docker_volumes/deconz_user_data:/root/.local/share/dresden-elektronik/deCONZ
+  #    - ${VOLUMES_USER_DATA_BASE}deconz_user_data:/root/.local/share/dresden-elektronik/deCONZ
   #  devices:
   #    - "/dev/tty.URT0:/dev/tty.URT0"
 
@@ -176,7 +177,7 @@ services:
       - "5050:5050"
     volumes:
       # Set which local directory will contain all your app daemon configuration
-      - /Volumes/nvme_osx/docker_volumes/appdaemon:/conf
+      - ${VOLUMES_USER_DATA_BASE}appdaemon:/conf
     depends_on:
       - homeassistant
     user: "${LOCAL_USER}:${LOCAL_USER}"
@@ -187,9 +188,9 @@ services:
     image: codercom/code-server:latest
     volumes:
       # Set <project dir> to the directory you want to open in VS Code.
-      - /Volumes/nvme_osx/docker_volumes/vscode/project:/home/coder/project
+      - ${VOLUMES_USER_DATA_BASE}vscode/project:/home/coder/project
       # <vs code config> should point to a local dir where vs code stores its data.
-      - /Volumes/nvme_osx/docker_volumes/vscode/config:/home/coder/.local/share/code-server
+      - ${VOLUMES_USER_DATA_BASE}vscode/config:/home/coder/.local/share/code-server
     ports:
       - "8443:8443"
     command: code-server --auth password --port 8443 --disable-telemetry /home/coder/project
