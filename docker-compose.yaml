@@ -132,9 +132,9 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-      MYSQL_DATABASE: ha_db
-      MYSQL_USER: homeassistant
-      MYSQL_PASSWORD: "${HA_MYSQL_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_HA_DATABASE}"
+      MYSQL_USER: "${MYSQL_HA_USER}"
+      MYSQL_PASSWORD: "${MYSQL_HA_USER_PASSWORD}"
     user: "${LOCAL_USER}:${LOCAL_USER}"
     volumes:
       # Local path where the database will be stored.
