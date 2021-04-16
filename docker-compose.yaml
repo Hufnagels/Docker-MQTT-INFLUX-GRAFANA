@@ -15,7 +15,6 @@ services:
   #MQTT Broker Mosquitto
   mosquitto:
     image: eclipse-mosquitto
-    hostname: mosquitto
     container_name: mosquitto
     restart: always
     ports:
@@ -25,6 +24,10 @@ services:
       - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
       - ${VOLUMES_USER_DATA_BASE}mosquitto_user_data:/mosquitto/data
 #      - mosquitto_volume:/mosquitto/data
+    networks:
+      - smarthome
+    domainname: docker.local
+    hostname: mosquitto
 
   #NODE-RED
   node-red:
@@ -36,6 +39,11 @@ services:
     volumes:
       - ${VOLUMES_USER_DATA_BASE}mynodered_user_data:/data
 #      - mynodered_volume:/var/lib/nodered
+    networks:
+      - smarthome
+    domainname: docker.local
+    hostname: mynodered
+
 
   #InfluxDB store sensors data
   influxdb:
@@ -55,6 +63,9 @@ services:
     volumes:
       - ${VOLUMES_USER_DATA_BASE}influxdb_user_data:/var/lib/influxdb
       - ./config/influx-init.iql:/docker-entrypoint-initdb.d/
+    networks:
+      - smarthome
+
 
   #Telegraf gather sensors data via MQTT to send to InfluxDB
   telegraf:
@@ -67,6 +78,9 @@ services:
       - ./config/telegraf.conf:/etc/telegraf/telegraf.conf
 #      - telegraf_volume:/home
     depends_on: [influxdb]
+    networks:
+      - smarthome
+
 
   #Visualize sensors Influx data
   grafana:
@@ -81,122 +95,9 @@ services:
       - influxdb
     volumes:
       - ${VOLUMES_USER_DATA_BASE}grafana_user_data:/var/lib/grafana
+    networks:
+      - smarthome
 
-  #HOMASSISTANT SECTION
-
-  #homeassistant:
-  #  container_name: homeassistant
-  #  image: homeassistant/homeassistant:latest
-  #  network_mode: "host"
-  #  ports:
-  #    - "8123:8123"
-  #  volumes:
-  #    - ${VOLUMES_USER_DATA_BASE}homeassistant_user_data:/config
-  #    #- /etc/localtime:/etc/localtime:ro
-  #    #- /etc/letsencrypt:/etc/letsencrypt:ro
-  #  devices:
-  #    - /dev/ttyACM0:/dev/ttyACM0:rwm
-  #  restart: always
-  #  healthcheck:
-  #    test: ["CMD", "curl", "-f", "http://127.0.0.1:8123"]
-  #    interval: 30s
-  #    timeout: 10s
-  #    retries: 6
-  
-  # HomeAssistant
-  homeassistant:
-    container_name: homeassistant
-    image: homeassistant/home-assistant
-    volumes:
-      # Local path where your home assistant config will be stored
-      - ${VOLUMES_USER_DATA_BASE}homeassistant_user_data:/config
-      #- /etc/localtime:/etc/localtime:ro
-    restart: unless-stopped
-    #network_mode: host
-    environment:
-      # This is the required way to set a timezone on macOS and differs from the Linux compose file
-      - TZ=Europe/Budapest
-    ports:
-      - "8123:8123"
-    depends_on:
-      # MariaDB is optional (only if you would like to use a different database for HA).
-      - mariadb
-      # Deconz is optional (only if you use the deconz Zigbee hub).
-      #- deconz
-    #user: "${LOCAL_USER}:${LOCAL_USER}"
-
-  # MariaDb
-  mariadb:
-    image: mariadb
-    container_name: mariadb
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${MYSQL_HA_DATABASE}"
-      MYSQL_USER: "${MYSQL_HA_USER}"
-      MYSQL_PASSWORD: "${MYSQL_HA_USER_PASSWORD}"
-    user: "${LOCAL_USER}:${LOCAL_USER}"
-    volumes:
-      # Local path where the database will be stored.
-      - ${VOLUMES_USER_DATA_BASE}mariadb_user_data:/var/lib/mysql
-    ports:
-      - "3306:3306"
-
-  # Deconz
-  #deconz:
-  #  container_name: deconz
-  #  image: marthoc/deconz:latest
-  #  restart: unless-stopped
-  #  network_mode: host
-  #  environment:
-  #    # You can access Deconz at this port
-  #    DECONZ_WEB_PORT: 8080
-  #    DECONZ_WS_PORT: 8088
-  #    # Set VNC_MODE to 0 to disable it completely
-  #    DECONZ_VNC_MODE: 1
-  #    DECONZ_VNC_PORT: "${VNC_PORT}"
-  #    DECONZ_VNC_PASSWORD: "${VNC_PASSWORD}"
-  #  volumes:
-  #    #- /etc/localtime:/etc/localtime:ro
-  #    #- /etc/timezone:/etc/timezone:ro
-  #    # Replace <local path> with a path where all deconz config will be stored.
-  #    - ${VOLUMES_USER_DATA_BASE}deconz_user_data:/root/.local/share/dresden-elektronik/deCONZ
-  #  devices:
-  #    - "/dev/tty.URT0:/dev/tty.URT0"
-
-  # AppDaemon
-  appdaemon:
-    container_name: appdaemon
-    restart: unless-stopped
-    image: acockburn/appdaemon:4.0.8
-    environment:
-      HA_URL: "http://${SERVER_IP}:8123"
-      TOKEN: "${HA_APPDAEMON_KEY}"
-      DASH_URL: "http://${SERVER_IP}:5050"
-    ports:
-      - "5050:5050"
-    volumes:
-      # Set which local directory will contain all your app daemon configuration
-      - ${VOLUMES_USER_DATA_BASE}appdaemon:/conf
-    depends_on:
-      - homeassistant
-    user: "${LOCAL_USER}:${LOCAL_USER}"
-
-  # Visual Studio code
-  vscode:
-    container_name: vscode
-    image: codercom/code-server:latest
-    volumes:
-      # Set <project dir> to the directory you want to open in VS Code.
-      - ${VOLUMES_USER_DATA_BASE}vscode/project:/home/coder/project
-      # <vs code config> should point to a local dir where vs code stores its data.
-      - ${VOLUMES_USER_DATA_BASE}vscode/config:/home/coder/.local/share/code-server
-    ports:
-      - "8443:8443"
-    command: code-server --auth password --port 8443 --disable-telemetry /home/coder/project
-    environment:
-      PASSWORD: "${VSCODE_PASSWORD}"
-    restart: unless-stopped
 
 #volumes:
   #influxdb_volume: {}
@@ -204,3 +105,9 @@ services:
   #mynodered_volume: {}
   #mosquitto_volume: {}
   #telegraf_volume: {}
+
+  #docker network create -d bridge --subnet 192.168.1.0/24 --gateway 192.168.1.1 --ip-range 192.168.1.225/29 smarthome
+
+networks:
+  smarthome:
+    external: true
