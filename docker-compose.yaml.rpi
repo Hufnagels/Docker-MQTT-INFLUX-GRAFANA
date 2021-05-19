@@ -98,44 +98,44 @@ services:
   #HOMASSISTANT SECTION
   
   # HomeAssistant
-  homeassistant:
-    container_name: homeassistant
-    #image: homeassistant/armv7-hassio-supervisor
-    image: homeassistant/raspberrypi3-homeassistant:latest
-    volumes:
-      # Local path where your home assistant config will be stored
-      - /media/www/docker_volumes/homeassistant_user_data:/config
-      #- /etc/localtime:/etc/localtime:ro
-    restart: unless-stopped
-    #network_mode: host
-    environment:
-      # This is the required way to set a timezone on macOS and differs from the Linux compose file
-      - TZ=Europe/Budapest
-    ports:
-      - "8123:8123"
-    depends_on:
-      # MariaDB is optional (only if you would like to use a different database for HA).
-      - mariadb
-      # Deconz is optional (only if you use the deconz Zigbee hub).
-      #- deconz
-    #user: "${LOCAL_USER}:${LOCAL_USER}"
+  #homeassistant:
+  #  container_name: homeassistant
+  #  #image: homeassistant/armv7-hassio-supervisor
+  #  image: homeassistant/raspberrypi3-homeassistant:latest
+  #  volumes:
+  #    # Local path where your home assistant config will be stored
+  #    - /media/www/docker_volumes/homeassistant_user_data:/config
+  #    #- /etc/localtime:/etc/localtime:ro
+  #  restart: unless-stopped
+  #  #network_mode: host
+  #  environment:
+  #    # This is the required way to set a timezone on macOS and differs from the Linux compose file
+  #    - TZ=Europe/Budapest
+  #  ports:
+  #    - "8123:8123"
+  #  depends_on:
+  #    # MariaDB is optional (only if you would like to use a different database for HA).
+  #    - mariadb
+  #    # Deconz is optional (only if you use the deconz Zigbee hub).
+  #    #- deconz
+  #  #user: "${LOCAL_USER}:${LOCAL_USER}"
 
   # MariaDb
-  mariadb:
-    image: jsurf/rpi-mariadb
-    container_name: mariadb
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${MYSQL_HA_DATABASE}"
-      MYSQL_USER: "${MYSQL_HA_USER}"
-      MYSQL_PASSWORD: "${MYSQL_HA_USER_PASSWORD}"
-    user: "${LOCAL_USER}:${LOCAL_USER}"
-    volumes:
-      # Local path where the database will be stored.
-      - /media/www/docker_volumes/mariadb_user_data:/var/lib/mysql
-    ports:
-      - "3306:3306"
+  #mariadb:
+  #  image: jsurf/rpi-mariadb
+  #  container_name: mariadb
+  #  restart: unless-stopped
+  #  environment:
+  #    MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+  #    MYSQL_DATABASE: "${MYSQL_HA_DATABASE}"
+  #    MYSQL_USER: "${MYSQL_HA_USER}"
+  #    MYSQL_PASSWORD: "${MYSQL_HA_USER_PASSWORD}"
+  #  user: "${LOCAL_USER}:${LOCAL_USER}"
+  #  volumes:
+  #    # Local path where the database will be stored.
+  #    - /media/www/docker_volumes/mariadb_user_data:/var/lib/mysql
+  #  ports:
+  #    - "3306:3306"
 
   # Deconz
   #deconz:
@@ -160,22 +160,22 @@ services:
   #    - "/dev/tty.URT0:/dev/tty.URT0"
 
   # AppDaemon
-  appdaemon:
-    container_name: appdaemon
-    restart: unless-stopped
-    image: acockburn/appdaemon:4.0.8
-    environment:
-      HA_URL: "http://${SERVER_IP}:8123"
-      TOKEN: "${HA_APPDAEMON_KEY}"
-      DASH_URL: "http://${SERVER_IP}:5050"
-    ports:
-      - "5050:5050"
-    volumes:
-      # Set which local directory will contain all your app daemon configuration
-      - /media/www/docker_volumes/appdaemon:/conf
-    depends_on:
-      - homeassistant
-    user: "${LOCAL_USER}:${LOCAL_USER}"
+  #appdaemon:
+  #  container_name: appdaemon
+  #  restart: unless-stopped
+  #  image: acockburn/appdaemon:4.0.8
+  #  environment:
+  #    HA_URL: "http://${SERVER_IP}:8123"
+  #    TOKEN: "${HA_APPDAEMON_KEY}"
+  #    DASH_URL: "http://${SERVER_IP}:5050"
+  #  ports:
+  #    - "5050:5050"
+  #  volumes:
+  #    # Set which local directory will contain all your app daemon configuration
+  #    - /media/www/docker_volumes/appdaemon:/conf
+  #  depends_on:
+  #    - homeassistant
+  #  user: "${LOCAL_USER}:${LOCAL_USER}"
 
   # Visual Studio code
   #not running on rpi
