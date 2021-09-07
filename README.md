@@ -33,6 +33,9 @@ In Grafana on the DB connect panel connection works only with the host computer 
     + [ESP2866 - BME280 sensor + Rules to send data to mqtt](#esp2866---bme280-sensor---rules-to-send-data-to-mqtt)
     + [configuration](#configuration-2)
   * [grafana](#grafana)
+  * [mariaddb](#mariadb)
+  * [phpmyadmin](#phpmyadmin)
+  * [mongodb](#mongodb)
 
 
 # Install and Goal
@@ -331,3 +334,9 @@ Sample Grafana query
 ~~~
 SELECT mean("Temperature") FROM "one_week"."mqtt_consumer" WHERE ("topic" = 'ESP2866/BME280') AND $timeFilter GROUP BY time(10s) fill(none)
 ~~~
+
+## mariadb
+ 
+## phpmyadmin
+
+## mongodb
