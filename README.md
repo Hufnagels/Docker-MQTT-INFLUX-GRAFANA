@@ -36,6 +36,7 @@ In Grafana on the DB connect panel connection works only with the host computer 
   * [mariaddb](#mariadb)
   * [phpmyadmin](#phpmyadmin)
   * [mongodb](#mongodb)
+  * [portainer version of phpmyadmin,mariadb,mongo](#portainerver)
 
 
 # Install and Goal
@@ -340,3 +341,49 @@ SELECT mean("Temperature") FROM "one_week"."mqtt_consumer" WHERE ("topic" = 'ESP
 ## phpmyadmin
 
 ## mongodb
+
+## portainerver
+
+Docker compose yaml file copied to STACK and added related env vars. So it can be managed from portainer, not needed from commandline to run the .sh startup/shutdown script
+~~~
+ version: "2"
+
+services:
+  #MariaDB
+  mariadb:
+    image: yobasystems/alpine-mariadb
+    container_name: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      #MYSQL_DATABASE="USER_DB_NAME"
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - TZ=Europe/Budapest
+    volumes:
+      - ${VOLUMES_USER_DATA_BASE}mariadb_user_data:/config
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    depends_on:
+      - mariadb
+    links:
+      - mariadb
+    ports:
+      - 8080:80
+    environment:
+      #- PMA_ARBITRARY=1
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - PMA_PORT=3306
+      - PMA_HOST=mariadb
+      - PMA_USER=root
+      - PMA_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ${VOLUMES_USER_DATA_BASE}phpmyadmin_user_data:/config 
+ ~~~
