@@ -341,10 +341,37 @@ SELECT mean("Temperature") FROM "one_week"."mqtt_consumer" WHERE ("topic" = 'ESP
 ## phpmyadmin
 
 ## mongodb
-
+[lowdef mongo 3.2](https://github.com/lowdef/rpi3-mongodb3.2)
+ 
 ## portainerver
 
 Docker compose yaml file copied to STACK and added related env vars. So it can be managed from portainer, not needed from commandline to run the .sh startup/shutdown script
+~~~
+ version: "2"
+
+services:
+  #mongoDB
+  mongo:
+    image: mangoraft/mongodb-arm
+    container_name: mongodb
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: ********
+    volumes:
+      - /media/WWW/docker_volumes/mongodb_user_data:/data/db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ********
+~~~
 ~~~
  version: "2"
 
