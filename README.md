@@ -4,6 +4,9 @@ The install on Raspberry Pi is the same, because raspi is debian based and the u
 I used [ESP EASY Mega firmware](https://github.com/letscontrolit/ESPEasy/tree/mega-20210114) on NodeMCU installed with [NodeMCU-PyFlasher-4.0](https://github.com/marcelstoer/nodemcu-pyflasher)
 
 Firmwaredata can be seen in [ESPEasyMega/espeasy-data_ESP_Easy_mega_20210114_normal_ESP8266_4M1M.json](ESPEasyMega/espeasy-data_ESP_Easy_mega_20210114_normal_ESP8266_4M1M.json)
+## UPDATE 22.02.2022 - Config files
+New Rpi (4 2GB) installed with Ubuntu 21.10 (GNU/Linux 5.13.0-1016-raspi aarch64). Latest Docker engine with old (mostly updated) containers. The new docker host IP is changed, so all the corresponding config files must have been updated to the right IPs.
+ 
 
 ## UPDATE 25.03.2021 - Docker-compose.yaml
 I decide to try a more convient way to set up the SMARTHOME system on my Mac with Docker-Desktop & docker-compose.

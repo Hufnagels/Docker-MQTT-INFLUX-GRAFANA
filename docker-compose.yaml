@@ -12,14 +12,14 @@ version: '3.7'
 
 services:
   
-  dps:
-    image: defreitas/dns-proxy-server
-    environment:
-      - MG_REGISTER_CONTAINER_NAMES=1
-    networks:
-      - smarthome
-    volumes:
-      - ${VOLUMES_USER_DATA_BASE}dns_user_data:/var/run/docker.sock
+#  dps:
+#    image: defreitas/dns-proxy-server
+#    environment:
+#      - MG_REGISTER_CONTAINER_NAMES=1
+#    networks:
+#      - smarthome
+#    volumes:
+#      - ${VOLUMES_USER_DATA_BASE}dns_user_data:/var/run/docker.sock
 
   #MQTT Broker Mosquitto
   mosquitto:
