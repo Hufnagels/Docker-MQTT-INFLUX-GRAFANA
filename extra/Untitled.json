@@ -1,0 +1,16 @@
+{
+  "subscribeTopics" : [ {
+    "name" : "#",
+    "color" : "#B3E6E6"
+  } ],
+  "publishTopics" : [ {
+    "name" : "ESP2866/status"
+  }, {
+    "name" : "ESP2866/BME280"
+  }, {
+    "name" : "home/garden/fountain"
+  }, {
+    "name" : "#"
+  } ],
+  "clipboardMessages" : [ ]
+}
