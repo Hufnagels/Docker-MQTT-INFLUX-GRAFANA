@@ -3,7 +3,7 @@
 ## get current dir##
 _mydir="`pwd`"
 echo "My working dir: $_mydir"
-#cd /home/pisti/docker/Docker-MQTT-INFLUX-GRAFANA/
+#cd /home/pisti/docker/Docker-MQTT-INFLUX-GRAFANA/compose_files
 cd $_mydir
 
 ## check verb and run command ##
